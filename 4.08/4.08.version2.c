@@ -1,8 +1,7 @@
 /*It's a shortened version of task 4.08 solution*/
 
 int trim(const char *str) {
-    if (!*str) return 0;
-    else return (*str == ' ') + trim(str + 1); 
+    return *str ? (*str == ' ') + trim(str + 1) : 0;
 };
 
 int main() {
