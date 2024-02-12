@@ -1,5 +1,6 @@
-int sys_write(int fd, const void *buf, int size);
-int sys_read(int fd, void *buf, int size);
+// 4.33-task-solution, but with using libraries and without using system calls
+
+#include <stdio.h>
 
 enum operation_smbl {
     plus = '+',
@@ -114,13 +115,12 @@ int execute(int first_operand, int second_operand, enum operation_smbl operation
 
 int main(int argc, char **argv)
 {
-    int last_stack_char, is_last_input_char_digit = 0;
+    int c, last_stack_char, is_last_input_char_digit = 0;
     int last_num, prev_last_num;
     int out_stack[max_stack_size] = { 0 };
     int operations_stack[max_stack_size] = { 0 };
-    char c;
 
-    while (sys_read(0, &c, sizeof(c)))
+    while ((c = getchar()) != EOF)
     {
         if (c == new_line_smbl || c == -1) {
             while (!stack_empty(operations_stack))
@@ -188,6 +188,8 @@ int main(int argc, char **argv)
         digits_count++;
     }
 
+    str[digits_count] = 0;
+
     num = out_stack[0];
     for (int i = 1; i <= digits_count; i++)
     {
@@ -195,8 +197,5 @@ int main(int argc, char **argv)
         num /= 10;
     }
     
-    str[digits_count] = '\n';
-    digits_count++;
-
-    sys_write(1, str, digits_count);
+    printf("%s\n", str);
 }
